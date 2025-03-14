@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рувики</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+</head>
+
+<body>
+    <div class="article">
+        <div class="article_text">
+            <h1>{{ article_title}}</h1>
+            <p>
+                {{ article_text}}
+            </p>
+        </div>
+        <div class="article_image">
+            <img src="{{ url_for('static', filename=article_image) }}" alt="Crew_Dragon_10" style="height: 150px;width: auto; margin-bottom: 10px;">
+            
+            <div> <b> {{ article_title}} </b></div>
+        </div>
+
+
+    </div>
+
+    
+
+</body>
+
+</html>
