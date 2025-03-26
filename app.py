@@ -1,57 +1,91 @@
-from flask import Flask,render_template
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    send_from_directory)
+import os
+import article
+
 
 app = Flask(__name__)
 
-
-#/article/1
+# Создаем по умолчанию папку 'uploads/' для загрузки картинок
+app.config['UPLOAD_FOLDER'] = 'uploads/'
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 database = {
     "spacex": {
         "article_title": "SpaceX Crew-10",
-        "article_text": """SpaceX Crew-10 — планируемый десятый пилотируемый полёт американского космического корабля Crew
-                Dragon компании SpaceX в рамках программы NASA Commercial Crew Program. Корабль доставит четырёх членов
-                экипажа миссии Crew-10 и космических экспедиций МКС-72/73 на Международную космическую станцию (МКС).
-                Запуск планируется провести 12 марта 2025 года.""",
-        "article_image": "SpaceX.jpg"
+        "article_text": """
+SpaceX Crew-10 — планируемый десятый пилотируемый полёт американского космического корабля
+Crew Dragon компании SpaceX в рамках программы NASA Commercial Crew Program.
+Корабль доставит четырёх членов экипажа миссии Crew-10 и космических экспедиций МКС-72/73 на Международную космическую станцию (МКС).
+Запуск планируется провести 12 марта 2025 года.
+""",
+        "article_image": "SpaceX_Crew_Dragon.jpg"
     },
+
     "cosmos": {
         "article_title": "Космос (философия)",
-        "article_text": """<b>Ко́смос</b> (др.-греч. κόσμος «порядок, гармония») — понятие древнегреческой философии и культуры, представление о природном мире как о пластически упорядоченном гармоническом целом[1]. Противопоставлялся хаосу. Греки соединяли в понятии «космос» две функции — упорядочивающую и эстетическую.
-
+        "article_text": """
+Ко́смос (др.-греч. κόσμος «порядок, гармония») — понятие древнегреческой философии и культуры,
+представление о природном мире как о пластически упорядоченном гармоническом целом.
+Противопоставлялся хаосу.
+Греки соединяли в понятии «космос» две функции — упорядочивающую и эстетическую.
 """,
-        "article_image": "cosmos.png"
-    },
-    "star": {
-        "article_title": "Звезда",
-        "article_text": """Звезда́ — массивный самосветящийся астрономический объект сферической формы, состоящий из плазмы, удерживаемой за счёт собственной гравитации. Ближайшей к Земле звездой является Солнце, другие звёзды на ночном небе выглядят как точки различной яркости, сохраняющие своё взаимное расположение[⇨]. Звёзды различаются структурой и химическим составом, а такие параметры, как радиус, масса и светимость, у разных звёзд могут отличаться на порядки[1][⇨].
-
-Самая распространённая схема классификации звёзд — по спектральным классам — основывается на их температуре и светимости[2][⇨]. Кроме того, среди звёзд выделяют переменные звёзды, которые меняют свой видимый блеск по различным причинам, с собственной системой классификации[⇨]. Звёзды часто образуют гравитационно-связанные системы: двойные или кратные системы, звёздные скопления и галактики[⇨]. Со временем звёзды меняют свои характеристики — это явление называется эволюцией звёзд, и в зависимости от начальной массы звезды она может проходить совершенно по-разному.""",
-
-        "article_image": "star.jpg"
-
-
+        "article_image": "Cosmos.png"
     }
-
 }
-
 
 @app.route("/article/<name>")
 def get_article(name):
     if name not in database:
-        return "<h1>Такой статьи не существует</h2>"
+        return "<h1>Такой статьи не существует!</h1>"
 
-    article_details = database[name]
+    article = database[name]
     return render_template(
         "article.html",
-        article_title=article_details["article_title"],
-        article_text=article_details["article_text"],
-        article_image=article_details["article_image"]
+        article=article
     )
+
+
+@app.route("/create_article", methods=["GET", "POST"])
+def create_article():
+    if request.method == "GET":
+        return render_template('create_article.html')
+    
+    # Далее обработка POST-запроса
+    title = request.form.get("title")
+    content = request.form.get("content")
+    image = request.files.get("photo")
+    
+    if image is not None and image.filename: # Не надо писать: photo != None
+        image_path = image.filename
+        print(app.config["UPLOAD_FOLDER"] + image_path)
+        image.save(app.config["UPLOAD_FOLDER"] + image_path)
+        
+
+    else:
+        image_path = None
+
+
+
+    print(dir(article))
+    database[title] = article.Article(title,content,image_path)
+
+    return redirect(url_for('index'))
 
 @app.route("/")
 @app.route("/index")
-
 def index():
     return render_template("index.html")
 
-app.run(debug=True,port=8080)
+
+@app.route('/uploads/<filename>')
+def uploaded_photo(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
+app.run(debug=True, port=8080)
