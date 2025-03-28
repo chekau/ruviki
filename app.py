@@ -6,7 +6,7 @@ from flask import (
     url_for,
     send_from_directory)
 import os
-import article
+from article import Database,Article
 
 
 app = Flask(__name__)
@@ -15,36 +15,20 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-database = {
-    "spacex": {
-        "article_title": "SpaceX Crew-10",
-        "article_text": """
-SpaceX Crew-10 — планируемый десятый пилотируемый полёт американского космического корабля
-Crew Dragon компании SpaceX в рамках программы NASA Commercial Crew Program.
-Корабль доставит четырёх членов экипажа миссии Crew-10 и космических экспедиций МКС-72/73 на Международную космическую станцию (МКС).
-Запуск планируется провести 12 марта 2025 года.
-""",
-        "article_image": "SpaceX_Crew_Dragon.jpg"
-    },
 
-    "cosmos": {
-        "article_title": "Космос (философия)",
-        "article_text": """
-Ко́смос (др.-греч. κόσμος «порядок, гармония») — понятие древнегреческой философии и культуры,
-представление о природном мире как о пластически упорядоченном гармоническом целом.
-Противопоставлялся хаосу.
-Греки соединяли в понятии «космос» две функции — упорядочивающую и эстетическую.
-""",
-        "article_image": "Cosmos.png"
-    }
-}
 
-@app.route("/article/<name>")
-def get_article(name):
-    if name not in database:
+
+
+
+@app.route("/article/<title>")
+def get_article(title):
+
+    article = Database.find_article_by_title(title)
+
+
+    if article is None:
         return "<h1>Такой статьи не существует!</h1>"
 
-    article = database[name]
     return render_template(
         "article.html",
         article=article
@@ -52,9 +36,10 @@ def get_article(name):
 
 
 @app.route("/create_article", methods=["GET", "POST"])
+
 def create_article():
     if request.method == "GET":
-        return render_template('create_article.html')
+        return render_template('create_article.html',error=request.args.get("error"))
     
     # Далее обработка POST-запроса
     title = request.form.get("title")
@@ -72,15 +57,17 @@ def create_article():
 
 
 
-    print(dir(article))
-    database[title] = article.Article(title,content,image_path)
+    
+    saved = Database.save(Article(title, content, image_path))
+    if not saved:
+        return redirect(url_for("create_article",error=True))
 
     return redirect(url_for('index'))
 
 @app.route("/")
 @app.route("/index")
 def index():
-    return render_template("index.html")
+    return render_template("index.html",articles=Database.get_all_articles())
 
 
 @app.route('/uploads/<filename>')

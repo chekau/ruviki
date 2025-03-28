@@ -11,15 +11,15 @@
         <h1>Доступные статьи</h1>
     
         <div class="article_table">
-            <a class="article_card" href="{{ url_for('get_article', name='spacex') }}">
-                <h3>Spacex</h3>
+            {% for article in articles %}
+
+
+            <a class="article_card" href="{{ url_for('get_article', title=article.title) }}">
+                <h3>{{ article.title}}</h3>
                 <p>Что-то про саму статью кратко...</p>
             </a>
 
-            <a class="article_card" href="{{ url_for('get_article', name='cosmos') }}">
-                <h3>Космос (философия)</h3>
-                <p>Что-то про саму статью кратко...</p>
-            </a>
+            {% endfor %}
         </div>
     </div>
 </body>
