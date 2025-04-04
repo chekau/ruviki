@@ -53,7 +53,7 @@ class Database:
         for (id,title,content,image) in Database.fetchall(
 
             "SELECT * FROM articles"):
-            articles.append(Article(title,content,image))
+            articles.append(Article(title,content,image,id))
 
         return articles
 
@@ -70,7 +70,7 @@ class Database:
           return None
          
          id,title,content,image = articles[0]
-         return Article(title,content,image)
+         return Article(title,content,image,id)
  
  
 class SimpleDatabase:
