@@ -69,7 +69,14 @@ def create_article():
 @app.route("/")
 @app.route("/index")
 def index():
-    return render_template("index.html",articles=Database.get_all_articles())
+    articles = Database.get_all_articles()
+    count_in_group = 4
+
+    groups = []
+    for i in range(0,len(articles),count_in_group):
+        groups.append(articles[i:i + count_in_group])
+    
+    return render_template("index.html",groups=groups)
 
 
 @app.route('/uploads/<filename>')
