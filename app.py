@@ -11,6 +11,7 @@ from database import Database
 
 
 app = Flask(__name__)
+Database.create_article_table()
 
 # Создаем по умолчанию папку 'uploads/' для загрузки картинок
 app.config['UPLOAD_FOLDER'] = 'uploads/'
