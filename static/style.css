@@ -154,3 +154,12 @@ body {
 }
 
 
+.anotation {
+    width: 85%;
+    color: blue;
+    background-color: beige;
+    margin-right: 10px;
+    padding-left: 20px;
+    border-radius: 20px;
+
+}
