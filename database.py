@@ -17,7 +17,7 @@ class Database:
  
      @staticmethod
      def create_article_table():
-         with open(Database.chema_path) as schema_file:
+         with open(Database.schema_path) as schema_file:
             sql_code = schema_file.read()
             Database.execute(sql_code)
  
@@ -46,10 +46,10 @@ class Database:
         articles = []
         
 
-        for (title,content,anotation,image,id) in Database.fetchall(
+        for (id,title,content,image,anotation) in Database.fetchall(
 
             "SELECT * FROM articles"):
-            articles.append(Article(title-title,
+            articles.append(Article(title=title,
                                     content=content,
                                     anotation=anotation,
                                     image=image,

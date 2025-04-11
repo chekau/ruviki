@@ -6,9 +6,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Рувики</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <div class="article_controls">
+        <button class="controls_del_btn" id="delete_article_btn">
+            Удалить статью
+            <img 
+                src="{{url_for('static',filename='img/delete_button.webp')}}"
+                class="controls_del_icon">
+ 
+        </button>
+
+
+    </div>
+    <script>
+        function delete_article() {
+           fetch("/delete_article", {method: "DELETE"});
+        }
+
+        document
+        .getElementById("delete_article_btn")
+        .addEventListener("click",function() {})
+    </script>
+
+
     <div class="article">
         <div class="article_text">
             <h1>{{ article.title }}</h1>
@@ -17,7 +39,7 @@
             
         <div class="article_anotation">
             <details open>
-                данная статья про {{article.anotation}}
+                {{article.anotation}}
                 <summary> Анотация статьи: </summary>
             </details>
 

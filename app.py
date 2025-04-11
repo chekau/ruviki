@@ -17,8 +17,14 @@ Database.create_article_table()
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
+@app.route("/favicon/")
+def favicon():
+    return send_from_directory(
+        os.path.join(app.root_path,'static/img'),
+        "favicon.ico",
+        mimetype="image/vnd.microsoft.icon"
 
-
+    )
 
 
 
@@ -66,6 +72,15 @@ def create_article():
         return redirect(url_for("create_article",error=True))
 
     return redirect(url_for('index'))
+
+
+@app.route("/delete_article",methods=["DELETE"])
+def delete_article():
+    ...
+
+
+
+
 
 @app.route("/")
 @app.route("/index")
