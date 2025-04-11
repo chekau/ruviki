@@ -4,6 +4,7 @@ from article import Article
  
 class Database:
      db_path = "database.db"
+     schema_path = "schema.sql"
  
      @staticmethod
      def execute(sql_code: str, params: tuple = ()):
@@ -16,15 +17,9 @@ class Database:
  
      @staticmethod
      def create_article_table():
-         Database.execute("""
-         CREATE TABLE IF NOT EXISTS articles (
-             id INTEGER PRIMARY KEY AUTOINCREMENT,
-             title TEXT NOT NULL,
-             content TEXT NOT NULL,
-             filename TEXT,
-             anotation TEXT
-         )
-         """)
+         with open(Database.chema_path) as schema_file:
+            sql_code = schema_file.read()
+            Database.execute(sql_code)
  
      @staticmethod
      def save(article: Article):
@@ -51,10 +46,14 @@ class Database:
         articles = []
         
 
-        for (id,title,content,image,anotation) in Database.fetchall(
+        for (title,content,anotation,image,id) in Database.fetchall(
 
             "SELECT * FROM articles"):
-            articles.append(Article(id,title,content,image,anotation))
+            articles.append(Article(title-title,
+                                    content=content,
+                                    anotation=anotation,
+                                    image=image,
+                                    id=id))
 
         return articles
 

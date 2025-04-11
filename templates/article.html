@@ -13,14 +13,15 @@
         <div class="article_text">
             <h1>{{ article.title }}</h1>
 
-            <div class="anotation">
-                <details open>
-                    данная статья про {{article.anotation}}
-                    <summary> Анотация статьи: </summary>
-                </details>
+        </div>
+            
+        <div class="article_anotation">
+            <details open>
+                данная статья про {{article.anotation}}
+                <summary> Анотация статьи: </summary>
+            </details>
 
-
-            </div>
+        </div>
 
             <p>
                 {{ article.content }}
