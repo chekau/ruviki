@@ -7,4 +7,5 @@ class Article:
      content: str
      image: str| None = None
      id: int | None = None
+     anotation: str 
     

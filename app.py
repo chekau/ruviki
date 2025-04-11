@@ -47,6 +47,7 @@ def create_article():
     title = request.form.get("title")
     content = request.form.get("content")
     image = request.files.get("photo")
+    anotation = request.form.get("anotation")
     
     if image is not None and image.filename: # Не надо писать: photo != None
         image_path = image.filename
@@ -60,7 +61,7 @@ def create_article():
 
 
     
-    saved = Database.save(Article(title, content, image_path))
+    saved = Database.save(Article(title, content,anotation,image_path))
     if not saved:
         return redirect(url_for("create_article",error=True))
 
@@ -70,7 +71,7 @@ def create_article():
 @app.route("/index")
 def index():
     articles = Database.get_all_articles()
-    count_in_group = 4
+    count_in_group = 5
 
     groups = []
     for i in range(0,len(articles),count_in_group):

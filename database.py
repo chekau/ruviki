@@ -21,7 +21,8 @@ class Database:
              id INTEGER PRIMARY KEY AUTOINCREMENT,
              title TEXT NOT NULL,
              content TEXT NOT NULL,
-             filename TEXT
+             filename TEXT,
+             anotation TEXT
          )
          """)
  
@@ -32,8 +33,8 @@ class Database:
 
 
          Database.execute(f"""
-         INSERT INTO articles (title, content, filename) VALUES (?, ?, ?)
-         """, (article.title, article.content, article.image))
+         INSERT INTO articles (title, content, filename,anotation) VALUES (?, ?, ?, ?)
+         """, (article.title, article.content, article.image,article.anotation))
          return True
  
      @staticmethod
@@ -50,10 +51,10 @@ class Database:
         articles = []
         
 
-        for (id,title,content,image) in Database.fetchall(
+        for (id,title,content,image,anotation) in Database.fetchall(
 
             "SELECT * FROM articles"):
-            articles.append(Article(title,content,image,id))
+            articles.append(Article(id,title,content,image,anotation))
 
         return articles
 
@@ -69,8 +70,8 @@ class Database:
          if not articles:
           return None
          
-         id,title,content,image = articles[0]
-         return Article(title,content,image,id)
+         id,title,content,image,anotation = articles[0]
+         return Article(id,title,content,image,anotation)
  
  
 class SimpleDatabase:
