@@ -56,6 +56,19 @@ class Database:
                                     id=id))
 
         return articles
+     
+     @staticmethod
+     def find_article_by_id(article_id: int) -> Article | None:
+        articles = Database.fetchall("SELECT * FROM articles WHERE id = ?", [article_id])
+
+        if not articles: # if len(articles) == 0
+            return None
+        
+        id,title,content,image,anotation = articles[0]
+        print(articles[0])
+        article = Article(id=id,title=title,content=content,image=image,anotation=anotation)
+
+        return article
 
 
 
@@ -69,8 +82,9 @@ class Database:
          if not articles:
           return None
          
+         print(articles)
          id,title,content,image,anotation = articles[0]
-         return Article(id,title,content,image,anotation)
+         return Article(title,content,image,anotation,id)
  
  
 class SimpleDatabase:

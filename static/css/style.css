@@ -15,10 +15,27 @@ body {
     width: 1000px;
     border-radius: 10px;
     display: flex;
-    justify-content: end;
+    justify-content: center;
     margin-bottom: 10px;
     padding:10px;
     background-color: whitesmoke;
+}
+
+
+.left_controls {
+    width: 50%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+}
+
+.right_controls {
+    width: 50%;
+    display: flex;
+    justify-self: end;
+    align-items: center;
+
 }
 
 
@@ -192,3 +209,9 @@ body {
 }
 
 
+.image_preview {
+    height: 150px; 
+    width: auto; 
+    margin-bottom: 10px;
+
+}

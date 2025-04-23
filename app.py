@@ -4,7 +4,8 @@ from flask import (
     request,
     redirect,
     url_for,
-    send_from_directory)
+    send_from_directory,
+    abort)
 import os
 from article import Article
 from database import Database
@@ -32,7 +33,7 @@ def favicon():
 def get_article(title):
 
     article = Database.find_article_by_title(title)
-
+    print("GET", article)
 
     if article is None:
         return "<h1>Такой статьи не существует!</h1>"
@@ -44,7 +45,6 @@ def get_article(title):
 
 
 @app.route("/create_article", methods=["GET", "POST"])
-
 def create_article():
     if request.method == "GET":
         return render_template('create_article.html',error=request.args.get("error"))
@@ -66,7 +66,7 @@ def create_article():
 
 
 
-    
+    print(Article(title, content,anotation,image_path))
     saved = Database.save(Article(title, content,anotation,image_path))
     if not saved:
         return redirect(url_for("create_article",error=True))
@@ -74,9 +74,28 @@ def create_article():
     return redirect(url_for('index'))
 
 
-@app.route("/delete_article",methods=["DELETE"])
-def delete_article():
-    ...
+@app.route("/delete_article/<id>", methods=["POST"])
+def delete_article(id):
+    if not Database.delete(id):
+        abort(404, f"Article id {id} doesn't exist")
+    
+    return redirect(url_for('index'))
+
+
+@app.route("/update_article/<id>", methods=["GET", "POST"])
+def update_article(id):
+    if request.method == "GET":
+        article = Database.find_article_by_id(id)
+        if article is None:
+            abort(404, f"ARTICLE ID {id} doesnt exist")
+
+        return render_template("update_article.html",article=article)
+    
+    
+    #post запрос пока не поддерживается просиходит перенаправление при по пытке сделать post запрс
+    return redirect(url_for('index'))
+
+
 
 
 

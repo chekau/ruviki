@@ -10,6 +10,19 @@
 </head>
 <body>
     <div class="article_controls">
+        <div class="left_controls">
+            <a href="{{ url_for('index') }}">Главная страница</a>
+
+        </div>
+
+        <div class="right_controls">
+
+        <form action="{{ url_for('update_article', id=article.id) }}" method="get">
+            <button type="submit" class="controls_edit_btn">
+                Отредактировать
+            </button>
+        </form>
+
         <button class="controls_del_btn" id="delete_article_btn">
             Удалить статью
             <img 
@@ -17,7 +30,7 @@
                 class="controls_del_icon">
  
         </button>
-
+        </div>
 
     </div>
     <script>
