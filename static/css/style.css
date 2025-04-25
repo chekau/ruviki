@@ -21,6 +21,20 @@ body {
     background-color: whitesmoke;
 }
 
+@media (min-width: 200px) and (max-width: 800px) {
+
+
+    .left_controls {
+        display: none;
+    }
+
+    .article_controls {
+        width: 300px;
+        flex-direction: column;
+
+    }
+}
+
 
 .left_controls {
     width: 50%;

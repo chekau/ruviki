@@ -20,6 +20,46 @@ class Database:
          with open(Database.schema_path) as schema_file:
             sql_code = schema_file.read()
             Database.execute(sql_code)
+
+     @staticmethod
+     def update(article_id: int, title: str, content: str, image: str,anotation: str) -> bool:
+        # Если статьи с таким id нет, ничего не делаем и возвращаем False
+        if Database.find_article_by_id(article_id) is None:
+            return False
+        
+        Database.execute(
+            """
+            UPDATE articles
+            SET title = ?,
+                content = ?,
+                filename = ?,
+                anotation = ?
+            WHERE id = ?
+            """,
+            [title, content, image,anotation,article_id]
+        )
+        return True
+
+     @staticmethod
+     def delete(article_id: int) -> bool:
+        # Если статьи с таким id нет, ничего не делаем и возвращаем False
+        if Database.find_article_by_id(article_id) is None:
+            return False
+
+        Database.execute("DELETE FROM articles WHERE id = ?", [article_id])
+        return True
+
+     @staticmethod
+     def find_article_by_id(article_id: int) -> Article | None:
+        articles = Database.fetchall("SELECT * FROM articles WHERE id = ?", [article_id])
+
+        if not articles: # if len(articles) == 0
+            return None
+
+        id, title, content, image = articles[0]
+        article = Article(id=id, title=title, content=content, image=image)
+
+        return article
  
      @staticmethod
      def save(article: Article):
