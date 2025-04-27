@@ -33,6 +33,8 @@ def favicon():
 def get_article(title):
 
     article = Database.find_article_by_title(title)
+    if article:
+        article.views += 1
     print("GET", article)
 
     if article is None:
@@ -119,7 +121,6 @@ def update_article(id):
     return redirect(url_for('index'))
     
     
-
 
 
 

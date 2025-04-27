@@ -3,5 +3,6 @@ CREATE TABLE IF NOT EXISTS articles (
              title TEXT NOT NULL,
              content TEXT NOT NULL,
              filename TEXT,
-             anotation TEXT NOT NULL
+             anotation TEXT NOT NULL,
+             views INTEGER
 )

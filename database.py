@@ -56,8 +56,8 @@ class Database:
         if not articles: # if len(articles) == 0
             return None
 
-        id, title, content, image = articles[0]
-        article = Article(id=id, title=title, content=content, image=image)
+        id, title, content, image, views = articles[0]
+        article = Article(id=id, title=title, content=content, image=image, views=views)
 
         return article
  
@@ -68,8 +68,8 @@ class Database:
 
 
          Database.execute(f"""
-         INSERT INTO articles (title, content, filename,anotation) VALUES (?, ?, ?, ?)
-         """, (article.title, article.content, article.image,article.anotation))
+         INSERT INTO articles (title, content, filename,anotation,views) VALUES (?, ?, ?, ?,?)
+         """, (article.title, article.content, article.image,article.anotation,article.views))
          return True
  
      @staticmethod
@@ -86,13 +86,14 @@ class Database:
         articles = []
         
 
-        for (id,title,content,image,anotation) in Database.fetchall(
+        for (id,title,content,image,anotation,views) in Database.fetchall(
 
             "SELECT * FROM articles"):
             articles.append(Article(title=title,
                                     content=content,
                                     anotation=anotation,
                                     image=image,
+                                    views=views,
                                     id=id))
 
         return articles
@@ -104,9 +105,9 @@ class Database:
         if not articles: # if len(articles) == 0
             return None
         
-        id,title,content,image,anotation = articles[0]
+        id,title,content,image,anotation,views = articles[0]
         print(articles[0])
-        article = Article(id=id,title=title,content=content,image=image,anotation=anotation)
+        article = Article(id=id,title=title,content=content,image=image,anotation=anotation,views=views)
 
         return article
 
@@ -123,8 +124,8 @@ class Database:
           return None
          
          print(articles)
-         id,title,content,image,anotation = articles[0]
-         return Article(title,content,image,anotation,id)
+         id,title,content,image,anotation,views = articles[0]
+         return Article(title,content,image,anotation,views,id)
  
  
 class SimpleDatabase:

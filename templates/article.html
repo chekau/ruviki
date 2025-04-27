@@ -15,6 +15,7 @@
 
         </div>
 
+
         <div class="right_controls">
 
         <form action="{{ url_for('update_article', id=article.id) }}" method="get">
@@ -49,6 +50,7 @@
             <h1>{{ article.title }}</h1>
 
         </div>
+
             
         <div class="article_anotation">
             <details open>
@@ -56,11 +58,19 @@
                 <summary> Анотация статьи: </summary>
             </details>
 
+        
+
+
         </div>
 
             <p>
                 {{ article.content }}
             </p>
+        </div>
+        
+        <div class="article_views">
+            Просмотры статьи:{{article.views}}
+
         </div>
 
         

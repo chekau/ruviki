@@ -7,6 +7,7 @@ class Article:
      content: str
      anotation: str 
      image: str| None = None
+     views: int = 0
      id: int | None = None
      
     
