@@ -22,7 +22,7 @@ class Database:
             Database.execute(sql_code)
 
      @staticmethod
-     def update(article_id: int, title: str, content: str, image: str,anotation: str) -> bool:
+     def update(article_id: int, title: str, content: str, image: str,anotation: str,views: int) -> bool:
         # Если статьи с таким id нет, ничего не делаем и возвращаем False
         if Database.find_article_by_id(article_id) is None:
             return False
@@ -33,10 +33,11 @@ class Database:
             SET title = ?,
                 content = ?,
                 filename = ?,
-                anotation = ?
+                anotation = ?,
+                views = ?
             WHERE id = ?
             """,
-            [title, content, image,anotation,article_id]
+            [title, content, image,anotation,article_id,views]
         )
         return True
 
@@ -123,29 +124,29 @@ class Database:
          if not articles:
           return None
          
-         print(articles)
+        #  print(articles)
          id,title,content,image,anotation,views = articles[0]
+
+         
+         
+         
          return Article(title,content,image,anotation,views,id)
- 
- 
-class SimpleDatabase:
-     articles = []
- 
-     @staticmethod
-     def save(article: Article):
-         if SimpleDatabase.find_article_by_title(article.title) is not None:
-             return False
- 
-         SimpleDatabase.articles.append(article)
-         return True
- 
-     @staticmethod
-     def get_all_articles():
-         return SimpleDatabase.articles
      
      @staticmethod
-     def find_article_by_title(title: str):
-         for article in SimpleDatabase.articles:
-             if article.title == title:
-                 return article
-         return None
+     def increase_views_count(title: str):
+        if Database.find_article_by_title(title) is not None:
+             return False
+
+
+        Database.execute(f""" UPDATE `article` SET `views` = `views` + 1;""")
+        Database.save()
+        
+
+        
+
+         
+         
+        ...
+         
+ 
+ 

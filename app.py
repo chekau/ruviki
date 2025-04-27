@@ -33,13 +33,16 @@ def favicon():
 def get_article(title):
 
     article = Database.find_article_by_title(title)
-    if article:
-        article.views += 1
+    
+    Database.increase_views_count(title)
+    
+
     print("GET", article)
 
     if article is None:
         return "<h1>Такой статьи не существует!</h1>"
-
+    
+    
     return render_template(
         "article.html",
         article=article
@@ -56,6 +59,7 @@ def create_article():
     content = request.form.get("content")
     image = request.files.get("photo")
     anotation = request.form.get("anotation")
+    views = request.form.get("views")
     
     if image is not None and image.filename: # Не надо писать: photo != None
         image_path = image.filename
@@ -66,7 +70,7 @@ def create_article():
     else:
         image_path = None
 
-    Database.save(Article(title, content,anotation,image_path))
+    Database.save(Article(title, content,anotation,image_path, views))
 
 
     
@@ -116,8 +120,12 @@ def update_article(id):
     anotation = request.files.get("anotation")
     if anotation is None:
         anotation = article.anotation 
-    print(Database.update(id,title,content,filename,anotation))
-    Database.update(id,title,content,filename,anotation)
+
+    views = request.files.get("views")
+    if views is None:
+        views = article.views
+    # print(Database.update(id,title,content,filename,anotation))
+    Database.update(id,title,content,filename,anotation,views)
     return redirect(url_for('index'))
     
     
