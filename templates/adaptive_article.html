@@ -3,70 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="adaptive_artcile.css">
     <title></title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-        }
-
-        .article {
-            width: 75%;
-            min-width: 600px;
-            background-color: aqua;
-            display: flex;
-            justify-content: center;
-
-        }
-        .article_text {
-            background-color:crimson;
-            height: 500px;
-            width: 60%;
-
-        }
-        .article_image {
-            background-color: coral;
-            height: 500px;
-            width: 30%;
-
-        }
-        .article_image img {
-            width: 100%;
-            height: auto;
-        }
-
-        @media (max-width: 800px) {
-            .article {
-                width: 100%;
-                flex-direction: column-reverse;
-            }
-        .article_text {
-            
-            width: 100%;
-
-        }
-        .article_image {
-            
-            width: 100%;
-
-        }
-
-        
-        }
-            
-
-        
-    </style>
+    
 </head>
 <body>
     <div class="article">
-        <div class="article_text">
-            Крылышки МПСНатуральный состав, сохраняет сочность внутри. Готовые крылышки, только разогреть (2 минуты)
+        <div class="article_header">
+            <div class="controls">
+                <div class="left_controls">
+                    <a class="btn controls_home_btn"href="">
+                        главная
+    
+                    </a>
+    
+               </div>
+    
+               <div class="right_controls">
+                    <button class="btn controls_edit_btn">править</button>
+                    <button class="btn controls_delete_btn">удалить</button>
+               </div>
+    
+            </div>
         </div>
-        <div class="article_image">
-            <img src="../static/img/Ploshchad_revolyutsii_Metro_2010.jpg" alt="">
+
+        <div class="article_body">
+            <div class="text_information">
+                <div class="article_title">
+                    <h1>Московское метро</h1>
+                </div>
+        
+        
             
+                <div class="article_text">
+                    Московский метрополитен на 2025 год состоит из 15 линий длиной около 471,7 км в двухпутном исчислении (без учёта монорельса, МЦК и МЦД, технически с метрополитеном не взаимосвязанных) с 271 станцией, из которых более 40 являются памятниками культурного наследия.  1
+    
+    
+                    
+                </div>
+    
+            </div>
+            
+            <div class="article_image">
+                <img src="../static/img/Ploshchad_revolyutsii_Metro_2010.jpg" alt="">
+                
+            </div>
         </div>
+
+        
+
+
+        
 
 
 

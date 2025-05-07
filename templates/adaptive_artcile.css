@@ -1,0 +1,143 @@
+body {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(200, 194, 194);
+    padding-left: 0;
+    margin: 0;
+}
+.article {
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.article_header {
+    width: 75%;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(200, 194, 194);
+    border-radius: 16px;
+    margin-bottom: 8px;
+    padding: 8px 16px;
+}
+.controls {
+    display: flex;
+    width: 100%;
+}
+
+.left_controls {
+    display: flex;
+    justify-content: start;
+    width: 50%;
+}
+
+.right_controls {
+    display: flex;
+    justify-content: end;
+    width: 50%;
+}
+
+.btn {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 8px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: navy;
+    color: white;
+    transition: background-color 0.5s ease-in-out;
+    transition: color 0.5s ease-in-out; 
+}
+
+
+.btn:not(:hover) {
+    background-color: white;
+    color: black;
+    transition: background-color 0.5s ease-in-out;
+    transition: color 0.5s ease-in-out; 
+
+}
+
+
+
+.controls_edit_btn {
+    margin-right: 8px;
+}
+
+
+.article_body {
+    width: 75%;
+    min-width: 300px;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+
+}
+.text_information {
+    padding-left: 10px;
+    padding-right: 16px;
+    border-radius: 16px;
+    height: 100%;
+    width: 60%;
+    margin-right: 8px;
+    background-color: whitesmoke;
+
+}
+
+.article_title {
+
+
+
+}
+
+.article_text {
+
+}
+
+
+
+
+
+.article_image {
+    background-color: whitesmoke;
+    padding: 16px;
+    border-radius: 16px;
+    height: 500px;
+    width: 50%;
+    
+
+}
+.article_image img {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .article_body {
+        width: 100%;
+        flex-direction: column-reverse;
+    }
+.text_information{
+    
+    width: 100%;
+    margin-right: 0;
+    
+
+}
+.article_image {
+    margin-bottom: 8px;
+    width: 100%;
+
+}
+
+
+}
+    
