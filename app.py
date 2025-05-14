@@ -70,7 +70,7 @@ def create_article():
     else:
         image_path = None
 
-    Database.save(Article(title, content,anotation,image_path, views))
+    Database.save(Article(title, content,image_path,anotation,views))
 
 
     
@@ -151,6 +151,7 @@ def index():
 
 @app.route('/uploads/<filename>')
 def uploaded_photo(filename):
+    print("было получено такое имя файла", filename)
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 

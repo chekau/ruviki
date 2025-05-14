@@ -57,8 +57,9 @@ class Database:
         if not articles: # if len(articles) == 0
             return None
 
-        id, title, content, image, views = articles[0]
-        article = Article(id=id, title=title, content=content, image=image, views=views)
+        id, title, content, image, anotation, views = articles[0]
+        article = Article(id=id, title=title, content=content,anotation=anotation, image=image, views=views)
+        print(article)
 
         return article
  
@@ -139,7 +140,7 @@ class Database:
 
 
         Database.execute(f""" UPDATE `article` SET `views` = `views` + 1;""")
-        Database.save()
+        
         
 
         

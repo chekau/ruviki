@@ -1,93 +1,103 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Рувики</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/article.css') }}">
+    <title></title>
+    
 </head>
 <body>
-    <div class="article_controls">
-        <div class="left_controls">
-            <a href="{{ url_for('index') }}">Главная страница</a>
-
-        </div>
-
-
-        <div class="right_controls">
-
-        <form action="{{ url_for('update_article', id=article.id) }}" method="get">
-            <button type="submit" class="controls_edit_btn">
-                Отредактировать
-            </button>
-        </form>
-
-        <button class="controls_del_btn" id="delete_article_btn">
-            Удалить статью
-            <img 
-                src="{{url_for('static',filename='img/delete_button.webp')}}"
-                class="controls_del_icon">
- 
-        </button>
-        </div>
-
-    </div>
-    <script>
-        function delete_article() {
-           fetch("/delete_article", {method: "DELETE"});
-        }
-
-        document
-        .getElementById("delete_article_btn")
-        .addEventListener("click",function() {})
-    </script>
-
-
     <div class="article">
-        <div class="article_text">
-            <h1>{{ article.title }}</h1>
+        <div class="article_header">
+            <div class="controls">
+                <div class="left_controls">
+                    <a class="btn controls_home_btn"href="{{ url_for('index') }}">
+                        главная
+    
+                    </a>
+                    <div class="mobile_left_controls">
+                        <form action="{{ url_for('update_article', id=article.id) }}" method="get">
+                            
+                            <button class="btn controls_edit_btn">править</button>
+                        </form>
 
+                        <form action="{{url_for('delete_article',id=article.id) }}" method="post">
+                        <button type="submit" class="btn controls_delete_btn" onclick="return confirm('вы уверены что хотите удалить эту статью?')">
+                            удалить
+
+                        </button>
+                    </form>
+                       
+                    </div>     
+    
+               </div>
+
+               
+    
+               <div class="right_controls">
+                <form action="{{ url_for('update_article', id=article.id) }}" method="get">
+                            
+                    <button class="btn controls_edit_btn">править</button>
+                </form>
+
+                <form action="{{url_for('delete_article',id=article.id) }}" method="post">
+                <button type="submit" class="btn controls_delete_btn" onclick="return confirm('вы уверены что хотите удалить эту статью?')">
+                    удалить
+
+                </button>
+            </form>
+                
+               </div>
+    
+            </div>
         </div>
 
+        <div class="article_body">
+            <div class="text_information">
+                <div class="article_title">
+                    <h1>{{ article.title }}</h1>
+                </div>
+        
+        
             
-        <div class="article_anotation">
-            <details open>
-                {{article.anotation}}
-                <summary> Анотация статьи: </summary>
-            </details>
+                <div class="article_text">
+                    {{ article.content }}
+    
+                    
+                </div>
+    
+            </div>
+            
+            <div class="article_image">
+                <div class="article_image">
+                    {% if article.image %}
+                    <img
+                        src="{{ url_for('uploaded_photo', filename=article.image) }}"
+                        alt="{{ article.title }}">
+        
+                    <div><b>{{ article.title }}</b></div>
+                {% else %}
+                    <div><b> изображение отсутсвует </b></div>
+                {% endif %}
+        
+                </div>
+                
+                
+            </div>
+        </div>
 
         
 
 
-        </div>
-
-            <p>
-                {{ article.content }}
-            </p>
-        </div>
-
-        <div class="article_views">
-            Просмотры статьи: {{article.views}}
-
-        </div>
-
         
 
-        <div class="article_image">
-            {% if article.image %}
-            <img
-                src="{{ url_for('uploaded_photo', filename=article.image) }}"
-                alt="{{ article.title }}"
-                style="height: 150px; width: auto; margin-bottom: 10px;">
 
-            <div><b>{{ article.title }}</b></div>
-        {% else %}
-            <div><b> изображение отсутсвует </b></div>
-        {% endif %}
 
-        </div>
+
     </div>
+    
 </body>
 </html>

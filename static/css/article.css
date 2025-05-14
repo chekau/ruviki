@@ -142,24 +142,25 @@ body {
     }
 
     
-    }
+    
     .article_body {
         width: 100%;
         flex-direction: column-reverse;
     }
-.text_information{
     
-    width: 100%;
-    margin-right: 0;
-    
+    .text_information{
+
+        width: 100%;
+        margin-right: 0;
+
+
+    }
+    .article_image {
+        margin-bottom: 8px;
+        width: 100%;
+
+    }
+
 
 }
-.article_image {
-    margin-bottom: 8px;
-    width: 100%;
-
-}
-
-
-
     
