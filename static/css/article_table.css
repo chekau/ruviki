@@ -4,6 +4,7 @@
     padding-left: 20px;
     padding-right: 20px;
     width: 80%;
+    min-width: 320px;
 }
 .article_anotation {
     width: 45%;
@@ -38,7 +39,8 @@
 .article_table_row {
     display: flex;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
+
 
 }
 .article_card {
@@ -51,6 +53,7 @@
     text-decoration: none;
     max-width: 200px ;
     box-shadow: 12px 10px 2px 3px;
+    align-items: center;
 }
 
 .article_card:visited {
