@@ -14,7 +14,7 @@ from database import Database
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "SHPI"
-Database.create_article_table()
+Database.create_tables()
 
 # Создаем по умолчанию папку 'uploads/' для загрузки картинок
 app.config['UPLOAD_FOLDER'] = 'uploads/'
@@ -48,14 +48,19 @@ def register():
         flash("повторите пароль")
         return redirect(request.url)
     
+    print(password)
+    print(repeat_password)
+    
     if password != repeat_password:
         flash("пароли не совпадают")
         return redirect(request.url)
 
+    saved = Database.register_user(username,email,password)
+    if not saved:
+        flash("пользователь с таким никнеймом или почтой уже есть")
+        return redirect(request.url)
     
     
-    if not repeat_password:
-        ...
     return redirect(url_for("index"))
 
 
