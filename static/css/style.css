@@ -178,17 +178,21 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    min-width: 320px
+    min-width: 320px;
+
 }
 
 
-.create_button {
+.header_button {
     height: 30px;
     width: auto;
     background-color: gold;
     padding: 5px;
     text-decoration: none;
     font-size: 20px;
+    margin-right: 15px;
+    min-width: 200px;
+    text-align: center;
 
 }
 
@@ -197,5 +201,23 @@ body {
     height: 150px; 
     width: auto; 
     margin-bottom: 10px;
+
+}
+
+@media (max-width: 768px) {
+    .header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 8px;
+        padding-bottom: 8px;
+
+    }
+
+    .header_btn {
+        margin-bottom: 8px;
+    }
+    
 
 }

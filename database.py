@@ -1,4 +1,5 @@
 import sqlite3
+import hashlib
 from article import Article
  
  
@@ -16,10 +17,15 @@ class Database:
          conn.commit()
  
      @staticmethod
-     def create_article_table():
+     def create_tables():
          with open(Database.schema_path) as schema_file:
             sql_code = schema_file.read()
-            Database.execute(sql_code)
+            conn = sqlite3.connect(Database.db_path)
+
+            cursor = conn.cursor()
+            cursor.executescript(sql_code)
+
+            conn.commit()
 
      @staticmethod
      def update(article_id: int, title: str, content: str, image: str,anotation: str,views: int) -> bool:
@@ -140,6 +146,24 @@ class Database:
 
 
         Database.execute(f""" UPDATE `article` SET `views` = `views` + 1;""")
+
+
+     @staticmethod
+     def register_user(user_name,email,password):
+         #есть ли пользователи у которых уже указан такой никнейм или электронная почта
+         users = Database.fetchall(
+             "SELECT * FROM users WHERE user_name = ? OR email = ?",
+             [user_name, email]
+         )
+         if users:
+             return False
+         
+         password_hash = hashlib.md5(password.encode()).hexdigest()
+
+         Database.execute("INSERT INTO users (user_name, email, password_hash)"
+                          "VALUES (?,?,?)",
+                          [user_name,email,password_hash]
+        )
         
         
 
