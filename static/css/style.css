@@ -101,6 +101,16 @@ body {
     border-radius: 10px;
 }
 
+.article_views {
+    width: 35%;
+    font-size: 6px;
+
+    background-color:green;
+    margin-right: 10px;
+    padding-left: 10px;
+    border-radius: 10px;
+}
+
 
 .form_group {
     margin-bottom: 15px;
