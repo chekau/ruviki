@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+    
+
+
+
+    <div class="main">
+        <h1>Регистрация</h1>
+        {% for message in get_flashed_messages() %}
+        <div class="error_message">{{ message }}</div>
+        {% endfor %}
+
+        <form action="" method="post" class="create_article_form">
+            <div class="form_group">
+                <label for="username">Имя пользователя</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form_group">
+                <label for="email">Электронная почта</label>
+                <input type="text" id="email" name="email" required>
+            </div>
+
+            <div class="form_group">
+                <label for="username">Пароль</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="form_group">
+                <label for="repeat_password">Повторите пароль</label>
+                <input type="password" id="repeat_password" name="repeat_password" required>
+                    
+            </div>
+
+            <button type="submit">Сохранить</button>
+
+
+
+
+        </form>
+
+
+
+
+
+    </div>
+</body>
+
+</html>

@@ -155,6 +155,7 @@ class Database:
              "SELECT * FROM users WHERE user_name = ? OR email = ?",
              [user_name, email]
          )
+         print(users)
          if users:
              return False
          
@@ -164,9 +165,36 @@ class Database:
                           "VALUES (?,?,?)",
                           [user_name,email,password_hash]
         )
-        
-        
+         return True
+     
+     @staticmethod
+     def get_count_of_users():
+         count = Database.fetchall(
+            "SELECT COUNT(*) FROM users"
+            )[0][0]        
+         return count
+     
+     @staticmethod
+     def can_be_logged_in(user_or_email: str,password: str) -> bool:
+         print(Database.fetchall("SELECT * FROM users"))
+         print(user_or_email, password)
+         #1 проверить что пользователь с таким именем или эл почтой есть
+         users = Database.fetchall("SELECT * FROM users WHERE user_name = ? OR email = ?",[user_or_email,user_or_email])
+         print(users)
+         if not users:
+             return False
+         
+         #2 берем хэш пароль заданного пользователя
+         
+         user = users[0]
+         real_password_hash = user[3]
 
+         #3 сравниваем хэш хранящийся в бд и хэш пароля который попытались внести
+         password_hash = hashlib.md5(password.encode()).hexdigest()
+         print(password_hash)
+         if real_password_hash != password_hash:
+             return False
+         return True
         
 
          

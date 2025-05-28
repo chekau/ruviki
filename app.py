@@ -63,6 +63,23 @@ def register():
     
     return redirect(url_for("index"))
 
+@app.route("/login",methods=["POST","GET"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
+
+
+    #POST ЗАПРОС
+
+    user_name = request.form.get("username")
+    password = request.form.get("password")
+
+    if not Database.can_be_logged_in(user_name,password):
+        flash("такого пользователя не существует или неверный пароль")
+        return redirect(request.url)
+    
+    return redirect(url_for("index"))
+    
 
 
 @app.route("/favicon/")
@@ -193,7 +210,7 @@ def index():
     for i in range(0,len(articles),count_in_group):
         groups.append(articles[i:i + count_in_group])
     
-    return render_template("index.html",groups=groups)
+    return render_template("index.html",groups=groups,user_count=Database.get_count_of_users())
 
 
 @app.route('/uploads/<filename>')
