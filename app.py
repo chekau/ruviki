@@ -6,7 +6,8 @@ from flask import (
     url_for,
     send_from_directory,
     abort,
-    flash)
+    flash,
+    session)
 import os
 from article import Article
 from database import Database
@@ -61,7 +62,7 @@ def register():
         return redirect(request.url)
     
     
-    return redirect(url_for("index"))
+    return redirect(url_for("login"))
 
 @app.route("/login",methods=["POST","GET"])
 def login():
@@ -78,7 +79,16 @@ def login():
         flash("такого пользователя не существует или неверный пароль")
         return redirect(request.url)
     
+
+    session['user_id'] = Database.find_user_id_by_name(user_name)
     return redirect(url_for("index"))
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    if "user_id" in session:
+        session.clear()
+    return redirect(url_for("index"))
+
     
 
 

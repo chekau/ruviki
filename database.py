@@ -196,6 +196,14 @@ class Database:
              return False
          return True
         
+     def find_user_id_by_name(user_or_email):
+        users = Database.fetchall('SELECT id FROM users WHERE user_name = ? OR email = ?',[user_or_email,user_or_email])
+
+        if not users:
+            return None
+        
+        id = users[0][0]
+        return id
 
          
          

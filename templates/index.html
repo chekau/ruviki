@@ -12,11 +12,28 @@
         <h1>Доступные статьи</h1>
 
         <div class="header">
+
+            <div class="header_user_count">
+                зарегестрированно: {{ user_count}}
+            </div>
+            {% if session["user_id"] %}
             <a class="header_button" href="{{ url_for('create_article')}}">создать статью</a>
-
-
+            
+            <form action="{{ url_for('logout') }}" method="post">
+                <button class="header_button">
+                    выйти
+                </button>
+            </form>
+            
+            {% else %}
+            <form action="{{ url_for('login') }}" method="get">
+                <button class="header_button">
+                    войти
+                </button>
+            
+            </form>
             <a class="header_button" href="{{ url_for('register')}}">зарегестрироваться</a>
-
+            {% endif %}
         </div>
 
     
