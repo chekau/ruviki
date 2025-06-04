@@ -4,7 +4,9 @@ CREATE TABLE IF NOT EXISTS articles (
              content TEXT NOT NULL,
              filename TEXT,
              anotation TEXT NOT NULL,
-             views INTEGER
+             views INTEGER,
+             author_id INTEGER,
+             FOREIGN KEY (author_id) REFERENCES users (id)
 );
 
 

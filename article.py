@@ -1,6 +1,14 @@
 
 from dataclasses import dataclass
 
+
+
+@dataclass
+class User:
+    name: str
+    email:str
+
+
 @dataclass
 class Article:
      title: str

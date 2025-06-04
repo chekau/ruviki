@@ -28,7 +28,7 @@ class Database:
             conn.commit()
 
      @staticmethod
-     def update(article_id: int, title: str, content: str, image: str,anotation: str,views: int) -> bool:
+     def update(article_id: int, title: str, content: str, image: str,anotation: str,views: int, author_id: int) -> bool:
         # Если статьи с таким id нет, ничего не делаем и возвращаем False
         if Database.find_article_by_id(article_id) is None:
             return False
@@ -41,9 +41,10 @@ class Database:
                 filename = ?,
                 anotation = ?,
                 views = ?
+                author_id = ?
             WHERE id = ?
             """,
-            [title, content, image,anotation,article_id,views]
+            [title, content, image,anotation,article_id,views,article_id]
         )
         return True
 
@@ -63,8 +64,8 @@ class Database:
         if not articles: # if len(articles) == 0
             return None
 
-        id, title, content, image, anotation, views = articles[0]
-        article = Article(id=id, title=title, content=content,anotation=anotation, image=image, views=views)
+        id, title, content, image, anotation, views, author_id = articles[0]
+        article = Article(id=id, title=title, content=content,anotation=anotation, image=image, views=views, author_id=author_id)
         print(article)
 
         return article
@@ -76,8 +77,8 @@ class Database:
 
 
          Database.execute(f"""
-         INSERT INTO articles (title, content, filename,anotation,views) VALUES (?, ?, ?, ?,?)
-         """, (article.title, article.content, article.image,article.anotation,article.views))
+         INSERT INTO articles (title, content, filename,anotation,views,author_id) VALUES (?, ?, ?, ?,?,?)
+         """, (article.title, article.content, article.image,article.anotation,article.views, article.author_id))
          return True
  
      @staticmethod
@@ -94,15 +95,17 @@ class Database:
         articles = []
         
 
-        for (id,title,content,image,anotation,views) in Database.fetchall(
+        for (id,title,content,image,anotation,views,author_id) in Database.fetchall(
 
             "SELECT * FROM articles"):
+            author = Database.find_user_id_by_name(author_id)
             articles.append(Article(title=title,
                                     content=content,
                                     anotation=anotation,
                                     image=image,
                                     views=views,
-                                    id=id))
+                                    id=id,
+                                    author=author))
 
         return articles
      
@@ -113,9 +116,10 @@ class Database:
         if not articles: # if len(articles) == 0
             return None
         
-        id,title,content,image,anotation,views = articles[0]
+        id,title,content,image,anotation,views, author_id = articles[0]
+        
         print(articles[0])
-        article = Article(id=id,title=title,content=content,image=image,anotation=anotation,views=views)
+        article = Article(id=id,title=title,content=content,image=image,anotation=anotation,views=views,author=author_id)
 
         return article
 
@@ -132,12 +136,14 @@ class Database:
           return None
          
         #  print(articles)
-         id,title,content,image,anotation,views = articles[0]
+         id,title,content,image,anotation,views,author_id = articles[0]
+         author = Database.find_user_id_by_name(author_id)
+
 
          
          
          
-         return Article(title,content,image,anotation,views,id)
+         return Article(title,content,image,anotation,views,id,author_id)
      
      @staticmethod
      def increase_views_count(title: str):
@@ -204,7 +210,20 @@ class Database:
         
         id = users[0][0]
         return id
+     
 
+     @staticmethod
+     def get_articles_count_of_users(user_name):
+         user = Database.find_user_id_by_name(user_name)
+         #проверить есть ли такой пользователь если нет return 0
+         if user is None:
+             return 0
+         
+         article_count = Database.fetchall(
+             "SELECT COUNT(*) FROM articles WHERE author_id = %s", [user.id]
+         )
+
+         return article_count[0][0]
          
          
     

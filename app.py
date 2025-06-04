@@ -23,6 +23,15 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 
 
+@app.route("/statistics")
+def statistics():
+    user_count = Database.get_count_of_users()
+    return render_template("statistic.html",user_count=user_count)
+
+
+
+
+
 @app.route("/register",methods=["GET","POST"])
 def register():
     if request.method == "GET":
@@ -135,6 +144,7 @@ def create_article():
     anotation = request.form.get("anotation")
     views = request.form.get("views")
     
+    
     if image is not None and image.filename: # Не надо писать: photo != None
         image_path = image.filename
         print(app.config["UPLOAD_FOLDER"] + image_path)
@@ -144,10 +154,14 @@ def create_article():
     else:
         image_path = None
 
-    Database.save(Article(title, content,image_path,anotation,views))
+    author = Database.find_user_by_id(session['user_id'])
+    saved = Database.save(
+        Article(title=title, content=content, image=image_path, author=author)
+    )
 
+    if not saved:
+        return redirect(url_for('create_article', error=True))
 
-    
     
 
     return redirect(url_for('index'))
@@ -198,8 +212,14 @@ def update_article(id):
     views = request.files.get("views")
     if views is None:
         views = article.views
-    # print(Database.update(id,title,content,filename,anotation))
-    Database.update(id,title,content,filename,anotation,views)
+
+
+    author_id = request.files.get("author_id")
+    if author_id is None:
+        author_id = article.author_id
+
+    
+    Database.update(id,title,content,filename,anotation,views,author_id)
     return redirect(url_for('index'))
     
     
